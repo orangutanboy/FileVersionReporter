@@ -1,0 +1,27 @@
+FileVersionReporter is a command line app designed to be integrated into Visual Studio as an External Tool.
+It takes two parameters, a "start" directory and a search directory name. It walks up the directory path given until it finds a directory with the specified name, and then reports the version of all .exe and .dll files it finds in there.
+
+For example:
+Given a start directory of "c:\temp\projects\csharp\fileversion" and a search directory of "dependencies", it will search for a directory called
+"c:\temp\projects\csharp\fileversion\dependencies" or
+"c:\temp\projects\csharp\dependencies" or
+"c:\temp\projects\dependencies" or
+"c:\temp\dependencies" or
+"c:\dependencies"
+
+and report the contents of the first one it finds.
+
+Example output:
+
+AccountTest.dll                      v1.0.0.0
+AsyncCtpLibrary.dll                  v1.0.0.0
+nunit.framework.dll                  v2.5.10.11092
+Properties.Resources.Designer.cs.dll v0.0.0.0
+Resources.Designer.cs.dll            v0.0.0.0
+Rhino.Mocks.dll                      v3.6.0.0
+TestRunner.exe                       v1.0.0.0
+TestRunner.vshost.exe                v10.0.30319.1
+
+
+To create an external tool, I recommend having a read of this blogpost http://possiblythemostboringblogever.blogspot.com/2012/02/visual-studio-external-tool-output.html
+Use $(SolutionDir) as the first parameter if you want to launch it from the current solution directory.
