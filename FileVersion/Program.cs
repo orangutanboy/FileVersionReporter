@@ -21,6 +21,13 @@ namespace FileVersion
             }
 
             var targetDirectory = LocateDirectory(args[0], args[1]);
+
+            if (string.IsNullOrEmpty(targetDirectory))
+            {
+                Console.WriteLine("Unable to locate directory");
+                return;
+            }
+
             IEnumerable<string> fileNames = ExecutableFileList(targetDirectory);
 
             SetLongestFileLength(fileNames);
@@ -43,9 +50,16 @@ namespace FileVersion
                 return startPoint;
             }
 
-            return LocateDirectory(Path.Combine(startPath, ".."), directoryName);
+            DirectoryInfo parentDirectory;
+            if ((parentDirectory = Directory.GetParent(startPath)) == null)
+            {
+                return string.Empty;
+            }
+
+            return LocateDirectory(parentDirectory.FullName, directoryName);
         }
 
+        [DebuggerStepThrough]
         private static void TraceIt(string traceLine)
         {
             if (_trace)

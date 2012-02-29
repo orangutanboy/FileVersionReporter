@@ -24,10 +24,17 @@ namespace FileVersion.Test
             string directoryName = "testdirectory";
             Environment.CurrentDirectory += "\\..";
             Directory.CreateDirectory(directoryName);
-            var expectedPath = Path.Combine(startPath, "..", directoryName);
+            var expectedPath = Path.GetFullPath(Path.Combine(startPath, "..", directoryName));
             Assert.AreEqual(expectedPath, Program.LocateDirectory(startPath, directoryName));
             Directory.Delete(expectedPath);
         }
 
+        [Test]
+        public void LocateWithNoFolderInPathExpectEmptyPathReturned()
+        {
+            string startPath = Environment.CurrentDirectory;
+            string directoryName = "thisdoesntexistanywhere";
+            Assert.AreEqual(string.Empty, Program.LocateDirectory(startPath, directoryName));
+        }
     }
 }
